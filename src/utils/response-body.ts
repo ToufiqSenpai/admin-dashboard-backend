@@ -49,6 +49,6 @@ export class ResponseBody<T = any, E = any> {
         break
     }
 
-    return { ...statusMessage,  data: data, error: error }
+    return { ...statusMessage,  data: data, errors: error }
   }
 }
