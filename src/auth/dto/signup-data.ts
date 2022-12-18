@@ -1,4 +1,5 @@
 import { IsNotEmpty, IsEmail, MaxLength, MinLength } from "class-validator";
+import { IsEmailAlreadyExist } from "src/decorator/email-validator";
 
 export interface SignupProps {
   name: string
@@ -11,6 +12,7 @@ export class SignupData {
   @IsNotEmpty({ message: 'Required' })
   private name: string
 
+  @IsEmailAlreadyExist({ message: 'Email is already exist' })
   @MaxLength(99, { message: 'Email is too long' })
   @IsEmail({}, { message: 'Not an email' })
   @IsNotEmpty({ message: 'Required' })

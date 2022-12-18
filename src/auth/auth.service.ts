@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt/dist';
-import { PrismaClient } from '@prisma/client';
+import { PrismaClient, User } from '@prisma/client';
 import { SignupProps } from './dto';
 import * as bcrypt from 'bcrypt'
 
@@ -16,5 +16,14 @@ export class AuthService {
     await this.prisma.user.create({
       data: { name: data.name, email: data.email, password: hashedPassword}
     })
+  }
+
+  public async login(email: string): Promise<string> {
+    const user: User = await this.prisma.user.findFirst({ where: { email }})
+    const refreshToken: string = this.jwt.sign({ id: user.id }, {
+      privateKey: process.env.REFRESH_TOKEN_SECRET
+    })
+
+    return refreshToken
   }
 }

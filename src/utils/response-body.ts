@@ -1,54 +1,59 @@
 import { HttpStatus } from "@nestjs/common"
 
-export class ResponseBody<T = any, E = any> {
-  constructor(data: T, error: E | null, status: HttpStatus) {
-    let statusMessage = null
+export class ResponseBody {
+  constructor(payload: { data?: any, errors?: any, message?: string, status: HttpStatus }) {
+    let statusInfo = null
 
-    switch(status) {
+    switch(payload.status) {
       case 200:
-        statusMessage = { status: 200, message: 'OK' }
+        statusInfo = { status: 200, message: 'OK' }
         break
       case 201: 
-        statusMessage = { status: 201, message: 'Created' }
+        statusInfo = { status: 201, message: 'Created' }
         break
       case 202:
-        statusMessage = { status: 202, message: 'Accepted' }
+        statusInfo = { status: 202, message: 'Accepted' }
         break
       case 204:
-        statusMessage = { status: 204, message: 'No Content' }
+        statusInfo = { status: 204, message: 'No Content' }
         break
       case 400:
-        statusMessage = { status: 400, message: 'Bad Request' }
+        statusInfo = { status: 400, message: 'Bad Request' }
         break
       case 401:
-        statusMessage = { status: 401, message: 'Unauthorized' }
+        statusInfo = { status: 401, message: 'Unauthorized' }
         break
       case 403:
-        statusMessage = { status: 403, message: 'Forbidden' }
+        statusInfo = { status: 403, message: 'Forbidden' }
         break
       case 404:
-        statusMessage = { status: 204, message: 'No Content' }
+        statusInfo = { status: 204, message: 'No Content' }
         break
       case 405:
-        statusMessage = { status: 405, message: 'Method Not Allowed' }
+        statusInfo = { status: 405, message: 'Method Not Allowed' }
         break
       case 406:
-        statusMessage = { status: 406, message: 'Not Accepted' }
+        statusInfo = { status: 406, message: 'Not Accepted' }
         break
       case 409:
-        statusMessage = { status: 409, message: 'Conflict' }
+        statusInfo = { status: 409, message: 'Conflict' }
         break
       case 415:
-        statusMessage = { status: 415, message: 'Unsupported media type' }
+        statusInfo = { status: 415, message: 'Unsupported media type' }
         break
       case 422:
-        statusMessage = { status: 422, message: 'Unprocessable entity' }
+        statusInfo = { status: 422, message: 'Unprocessable entity' }
         break
       default:
-        statusMessage = { status: 200, message: 'OK' }
+        statusInfo = { status: 200, message: 'OK' }
         break
     }
 
-    return { ...statusMessage,  data: data, errors: error }
+    return { 
+      ...statusInfo,  
+      data: payload.data, 
+      errors: payload.errors, 
+      message: payload.message ? payload.message : statusInfo.message 
+    }
   }
 }
