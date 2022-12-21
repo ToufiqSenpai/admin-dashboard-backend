@@ -11,7 +11,7 @@ import { PrismaClient } from '@prisma/client';
 class IsUserAlreadyExistConstraint implements ValidatorConstraintInterface {
   private readonly prisma: PrismaClient = new PrismaClient()
 
-  public validate(email: any, args: ValidationArguments) {
+  public async validate(email: any): Promise<boolean> {
     if(typeof email != 'string') return true  
 
     return this.prisma.user.findFirst({ where: { email }}).then((user): boolean => user ? false : true)
