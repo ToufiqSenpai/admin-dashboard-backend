@@ -24,7 +24,7 @@ model Products {
   name          String
   description   String
   category      String
-  images        String[]
+  images        Bytes[]
   weight        Int
   stock         Int
   basePrice     Int
